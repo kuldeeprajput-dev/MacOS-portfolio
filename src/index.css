@@ -696,12 +696,12 @@ body.theme-dark {
   }
 
   #imgfile {
-    background: #000 !important;
+    background: #fff !important;
   }
 
   #imgfile #window-header {
-    background: #000 !important;
-    border-bottom: none !important;
+    background: #fff !important;
+    border-bottom: 0.5px solid #e5e5ea !important;
   }
 
   #contact ul {
