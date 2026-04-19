@@ -12,17 +12,383 @@ import {
   ShieldHalf,
   PanelLeft,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Safari = () => {
   const [showSidebar, setShowSidebar] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  if (isMobile) {
+    return (
+      <>
+        {/* iOS Safari Mobile Header */}
+        <div
+          id="window-header"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            padding: "10px 12px 8px",
+            background: "#f8f8f8",
+            borderBottom: "0.5px solid #d1d1d6",
+            gap: 8,
+            minHeight: "auto",
+            flexShrink: 0,
+          }}
+        >
+          {/* Top row: Back + URL bar + Share */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              width: "100%",
+            }}
+          >
+            <WindowControls target="safari" />
+
+            <div
+              style={{
+                flex: 1,
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+                background: "#e9e9eb",
+                borderRadius: 10,
+                padding: "7px 10px",
+                minHeight: 34,
+              }}
+            >
+              <ShieldHalf size={13} className="text-green-600 flex-shrink-0" />
+              <Search size={12} className="text-gray-400 flex-shrink-0" />
+              <span
+                style={{
+                  fontSize: 14,
+                  color: "#3c3c43",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                  flex: 1,
+                }}
+              >
+                kuldeep.dev
+              </span>
+            </div>
+
+            <Share
+              size={20}
+              className="text-blue-500 flex-shrink-0"
+            />
+          </div>
+
+          {/* Bottom row: Nav arrows + tabs */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              width: "100%",
+              paddingLeft: 4,
+              paddingRight: 4,
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+              <ChevronLeft size={22} className="text-gray-300" />
+              <ChevronRight size={22} className="text-gray-300" />
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+              <Layout size={18} className="text-blue-500" />
+              <Plus size={18} className="text-blue-500" />
+            </div>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div
+          style={{
+            flex: 1,
+            overflow: "auto",
+            WebkitOverflowScrolling: "touch",
+            background: "#fff",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          {/* Favorites Section */}
+          <div style={{ padding: "24px 20px 0" }}>
+            <h2
+              style={{
+                fontSize: 22,
+                fontWeight: 700,
+                color: "#000",
+                marginBottom: 16,
+              }}
+            >
+              Favorites
+            </h2>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(4, 1fr)",
+                gap: 16,
+              }}
+            >
+              {socials.map((favorite) => (
+                <a
+                  key={favorite.id}
+                  href={
+                    favorite.id === 2
+                      ? "https://www.youtube.com"
+                      : favorite.link
+                  }
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    gap: 6,
+                    textDecoration: "none",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 52,
+                      height: 52,
+                      borderRadius: 12,
+                      background: "#fff",
+                      boxShadow: "0 1px 4px rgba(0,0,0,0.1)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <img
+                      src={favorite.img}
+                      alt={favorite.text}
+                      style={{
+                        width: 26,
+                        height: 26,
+                        objectFit: "contain",
+                      }}
+                    />
+                  </div>
+                  <span
+                    style={{
+                      fontSize: 11,
+                      fontWeight: 500,
+                      color: "#3c3c43",
+                      textAlign: "center",
+                    }}
+                  >
+                    {favorite.id === 1
+                      ? "Github"
+                      : favorite.id === 2
+                      ? "Youtube"
+                      : favorite.id === 3
+                      ? "Twitter/X"
+                      : "LinkedIn"}
+                  </span>
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Privacy Report */}
+          <div style={{ padding: "20px 20px 0" }}>
+            <div
+              style={{
+                background: "#f2f2f7",
+                borderRadius: 14,
+                padding: 14,
+                display: "flex",
+                alignItems: "center",
+                gap: 12,
+              }}
+            >
+              <div
+                style={{
+                  width: 36,
+                  height: 36,
+                  borderRadius: 8,
+                  background: "#dbeafe",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexShrink: 0,
+                }}
+              >
+                <ShieldHalf className="text-blue-600" size={18} />
+              </div>
+              <div style={{ flex: 1 }}>
+                <p
+                  style={{
+                    fontSize: 15,
+                    fontWeight: 600,
+                    color: "#000",
+                  }}
+                >
+                  Privacy Report
+                </p>
+                <p style={{ fontSize: 13, color: "#8e8e93" }}>
+                  Safari has protected your projects from 14 trackers.
+                </p>
+              </div>
+              <ChevronRight size={18} className="text-gray-300" />
+            </div>
+          </div>
+
+          {/* Projects */}
+          <div style={{ padding: "20px 20px 32px" }}>
+            <h2
+              style={{
+                fontSize: 22,
+                fontWeight: 700,
+                color: "#000",
+                marginBottom: 16,
+              }}
+            >
+              Featured Projects
+            </h2>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 14,
+              }}
+            >
+              {projects.map((project) => (
+                <div
+                  key={project.id}
+                  style={{
+                    background: "#f2f2f7",
+                    borderRadius: 14,
+                    overflow: "hidden",
+                  }}
+                >
+                  <div
+                    style={{
+                      height: 140,
+                      background: "#e5e5ea",
+                      overflow: "hidden",
+                    }}
+                  >
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                      }}
+                    />
+                  </div>
+                  <div style={{ padding: 14 }}>
+                    <h3
+                      style={{
+                        fontSize: 17,
+                        fontWeight: 600,
+                        color: "#000",
+                        marginBottom: 6,
+                      }}
+                    >
+                      {project.title}
+                    </h3>
+                    <p
+                      style={{
+                        fontSize: 14,
+                        color: "#8e8e93",
+                        marginBottom: 12,
+                        display: "-webkit-box",
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: "vertical",
+                        overflow: "hidden",
+                      }}
+                    >
+                      {project.description}
+                    </p>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 16,
+                      }}
+                    >
+                      <a
+                        href={project.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 4,
+                          fontSize: 15,
+                          fontWeight: 500,
+                          color: "#007AFF",
+                          textDecoration: "none",
+                        }}
+                      >
+                        <ExternalLink size={14} />
+                        Live Demo
+                      </a>
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 4,
+                          fontSize: 15,
+                          fontWeight: 500,
+                          color: "#007AFF",
+                          textDecoration: "none",
+                        }}
+                      >
+                        Source
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* iOS Safari Bottom Bar */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-around",
+            alignItems: "center",
+            padding: "8px 16px 28px",
+            background: "rgba(248,248,248,0.97)",
+            backdropFilter: "blur(20px)",
+            WebkitBackdropFilter: "blur(20px)",
+            borderTop: "0.5px solid #d1d1d6",
+            flexShrink: 0,
+          }}
+        >
+          <ChevronLeft size={22} className="text-gray-300" />
+          <ChevronRight size={22} className="text-gray-300" />
+          <Share size={20} className="text-blue-500" />
+          <Plus size={20} className="text-blue-500" />
+          <Layout size={20} className="text-blue-500" />
+        </div>
+      </>
+    );
+  }
 
   return (
     <div className="flex flex-col h-full bg-white select-none overflow-hidden rounded-xl">
-      {/* Safari Header / Address Bar Area */}
       <div
         id="window-header"
-        className="!bg-[#f1f1f1] !border-b-[#d1d1d1] !px-4 !py-2"
+        className="!bg-white !border-b-[#d1d1d1] !px-4 !py-2"
       >
         <div className="flex items-center gap-4 w-full">
           <div className="flex items-center gap-2">
@@ -74,9 +440,8 @@ const Safari = () => {
       </div>
 
       <div className="flex flex-1 overflow-hidden relative">
-        {/* Optional Sidebar */}
         <div
-          className={`bg-[#f9f9f9] border-r border-[#d1d1d1] transition-all duration-300 ease-in-out ${
+          className={`bg-white border-r border-[#d1d1d1] transition-all duration-300 ease-in-out ${
             showSidebar ? "w-64 opacity-100" : "w-0 opacity-0"
           }`}
         >
@@ -111,18 +476,8 @@ const Safari = () => {
           </div>
         </div>
 
-        {/* Start Page Content */}
-        <div className="flex-1 overflow-y-auto relative safari-start-page">
-          <div className="absolute inset-0 opacity-40 pointer-events-none">
-            <img
-              src="/images/safari-bg.png"
-              className="w-full h-full object-cover"
-              alt=""
-            />
-          </div>
-
+        <div className="flex-1 overflow-y-auto relative safari-start-page bg-white">
           <div className="relative z-10 max-w-4xl mx-auto px-8 py-16">
-            {/* Favorites Section */}
             <section className="mb-12">
               <h2 className="text-xl font-semibold text-gray-800 mb-6">
                 Favorites
@@ -131,7 +486,11 @@ const Safari = () => {
                 {socials.map((favorite) => (
                   <a
                     key={favorite.id}
-                    href={favorite.id === 2 ? "https://www.youtube.com" : favorite.link}
+                    href={
+                      favorite.id === 2
+                        ? "https://www.youtube.com"
+                        : favorite.link
+                    }
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex flex-col items-center gap-2 group"
@@ -147,19 +506,16 @@ const Safari = () => {
                       {favorite.id === 1
                         ? "Github"
                         : favorite.id === 2
-                          ? "Youtube"
-                          : favorite.id === 3
-                            ? "Twitter/X"
-                            : favorite.id === 4
-                              ? "LinkedIn"
-                              : ""}
+                        ? "Youtube"
+                        : favorite.id === 3
+                        ? "Twitter/X"
+                        : "LinkedIn"}
                     </span>
                   </a>
                 ))}
               </div>
             </section>
 
-            {/* Privacy Report Section */}
             <section className="mb-12">
               <div className="bg-white/60 backdrop-blur-md rounded-2xl p-6 shadow-sm border border-white/40">
                 <div className="flex items-center justify-between mb-4">
@@ -182,7 +538,6 @@ const Safari = () => {
               </div>
             </section>
 
-            {/* Projects Section */}
             <section>
               <h2 className="text-xl font-semibold text-gray-800 mb-6">
                 Featured Projects
@@ -223,7 +578,6 @@ const Safari = () => {
                           rel="noopener noreferrer"
                           className="flex items-center gap-2 text-sm font-semibold text-gray-700 hover:text-black transition-colors"
                         >
-                          {/* <Github size={16} /> */}
                           Source
                         </a>
                       </div>

@@ -2,23 +2,27 @@ import { dockApps } from "#constants";
 import useWindowsStore from "#store/window";
 import dayjs from "dayjs";
 import { useEffect, useState, useRef } from "react";
-import { Battery, Wifi, Signal, X, Sun, Moon, Bluetooth } from "lucide-react";
+import { Battery, Wifi, Signal, X, Sun, Moon, Bluetooth, Flashlight, Calculator, Camera, Clock, Search } from "lucide-react";
 import gsap from "gsap";
 
 const MobileOS = () => {
   const { openWindow, windows } = useWindowsStore();
   const [now, setNow] = useState(dayjs());
   const [isControlOpen, setIsControlOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(0);
   const [settings, setSettings] = useState({
     wifi: true,
     bluetooth: true,
     darkMode: false,
     lowPower: false,
+    flashlight: false,
+    airplane: false,
   });
+  const [brightness, setBrightness] = useState(75);
+  const [volume, setVolume] = useState(50);
   const controlCenterRef = useRef(null);
-  const statusBarRef = useRef(null);
+  const touchStartRef = useRef(null);
 
-  // Has any window open?
   const anyWindowOpen = Object.values(windows).some((w) => w.isOpen);
 
   useEffect(() => {
@@ -26,34 +30,30 @@ const MobileOS = () => {
     return () => clearInterval(timer);
   }, []);
 
-  // Animate control center
   useEffect(() => {
     if (!controlCenterRef.current) return;
     if (isControlOpen) {
       gsap.fromTo(
         controlCenterRef.current,
-        { y: "-110%", opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.38, ease: "power3.out" }
+        { y: "-100%", opacity: 0 },
+        { y: "0%", opacity: 1, duration: 0.42, ease: "power3.out" }
       );
     } else {
       gsap.to(controlCenterRef.current, {
-        y: "-110%",
+        y: "-100%",
         opacity: 0,
-        duration: 0.28,
+        duration: 0.3,
         ease: "power3.in",
       });
     }
   }, [isControlOpen]);
 
-  // Close control center on outside click
   useEffect(() => {
     if (!isControlOpen) return;
     const handleOutside = (e) => {
       if (
         controlCenterRef.current &&
-        !controlCenterRef.current.contains(e.target) &&
-        statusBarRef.current &&
-        !statusBarRef.current.contains(e.target)
+        !controlCenterRef.current.contains(e.target)
       ) {
         setIsControlOpen(false);
       }
@@ -69,203 +69,289 @@ const MobileOS = () => {
   const toggle = (key) =>
     setSettings((prev) => ({ ...prev, [key]: !prev[key] }));
 
+  const lockScreenApps = dockApps.filter((a) => a.canOpen);
+  const pageCount = 1;
+
+  const formatTime = (t) => {
+    const h = t.format("h");
+    const m = t.format("mm");
+    return { h, m };
+  };
+
   return (
-    <div className="mobile-os-container text-white font-sans select-none"
-      style={{ 
-        position: "fixed",
-        top: 0, left: 0,
-        width: "100dvw", 
-        height: "100dvh",
-        overflow: "hidden",
-        zIndex: 1,
-      }}
-    >
-      {/* Status Bar */}
+    <div className="mobile-os-container text-white font-sans select-none fixed top-0 left-0 w-dvw h-dvh overflow-hidden z-[1]">
+      {/* ===== STATUS BAR ===== */}
       <header
-        ref={statusBarRef}
-        className="flex justify-between items-center px-5 pt-3 pb-2 absolute top-0 w-full z-[70]"
-        style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.35), transparent)" }}
+        className="absolute top-0 left-0 w-full z-[70] flex justify-between items-end h-[54px] pl-[28px] pr-[24px] pb-1 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.45)_0%,rgba(0,0,0,0.15)_70%,transparent_100%)]"
         onClick={() => !anyWindowOpen && setIsControlOpen((p) => !p)}
       >
-        <time className="text-[15px] font-bold tracking-tight">{now.format("h:mm")}</time>
-        <div className="flex items-center gap-[6px]">
-          <Signal size={15} strokeWidth={2.5} />
-          <Wifi size={15} strokeWidth={2.5} />
-          <Battery size={18} strokeWidth={2.5} />
-          <span className="text-[11px] font-bold">100%</span>
+        <time className="text-base font-semibold tracking-tight">
+          {now.format("h:mm")}
+        </time>
+        <div className="flex items-center gap-[5px]">
+          <Signal size={14} strokeWidth={2.2} />
+          <Wifi size={14} strokeWidth={2.2} />
+          <div className="flex items-center gap-[3px]">
+            <div className="w-[25px] h-[12px] rounded-[3px] border-[1.5px] border-white p-[1.5px] relative">
+              <div
+                className="h-full rounded-[1.5px]"
+                style={{
+                  width: `${settings.lowPower ? 40 : 100}%`,
+                  background: settings.lowPower ? "#f59e0b" : "#34c759",
+                }}
+              />
+              <div className="absolute right-[-3.5px] top-1/2 -translate-y-1/2 w-[2px] h-[5px] rounded-[1px] bg-white" />
+            </div>
+          </div>
         </div>
       </header>
 
-      {/* Control Center Panel */}
+      {/* ===== CONTROL CENTER (iOS 18 Style) ===== */}
       <aside
         ref={controlCenterRef}
-        className="absolute top-0 left-0 w-full z-[65] rounded-b-[36px] overflow-hidden"
-        style={{ transform: "translateY(-110%)", opacity: 0 }}
+        className="absolute top-0 left-0 w-full z-[75] overflow-hidden -translate-y-full opacity-0"
       >
-        <div
-          className="p-6 pt-12 flex flex-col gap-5"
-          style={{
-            background: "rgba(20,20,28,0.82)",
-            backdropFilter: "blur(40px) saturate(1.8)",
-          }}
-        >
-          {/* Date + close */}
-          <div className="flex justify-between items-start">
-            <div>
-              <p className="text-2xl font-bold leading-none">{now.format("h:mm")}</p>
-              <p className="text-sm opacity-60 mt-1">{now.format("dddd, MMMM D")}</p>
+        <div className="bg-[rgba(28,28,30,0.94)] backdrop-blur-[50px] backdrop-saturate-[2] min-h-dvh pt-[60px] pb-10 px-4">
+          {/* Close button */}
+          <button
+            onClick={() => setIsControlOpen(false)}
+            className="absolute top-[14px] right-4 z-10 flex items-center justify-center w-[30px] h-[30px] rounded-full bg-white/12"
+          >
+            <X size={15} strokeWidth={2.5} />
+          </button>
+
+          {/* Top row: Connectivity cluster */}
+          <div className="grid grid-cols-2 gap-3 mb-3">
+            {/* Left cluster: Airplane + Cellular + WiFi */}
+            <div className="bg-white/8 rounded-[18px] p-[14px] flex flex-col gap-[10px]">
+              <div className="flex gap-2">
+                <button
+                  onClick={() => toggle("airplane")}
+                  className="flex items-center justify-center transition-all w-[46px] h-[46px] rounded-full"
+                  style={{ background: settings.airplane ? "#f59e0b" : "rgba(255,255,255,0.12)" }}
+                >
+                  <span className="text-xl">✈︎</span>
+                </button>
+                <button
+                  onClick={() => toggle("wifi")}
+                  className="flex items-center justify-center transition-all w-[46px] h-[46px] rounded-full"
+                  style={{ background: settings.wifi ? "#007AFF" : "rgba(255,255,255,0.12)" }}
+                >
+                  <Wifi size={20} />
+                </button>
+                <button
+                  onClick={() => toggle("bluetooth")}
+                  className="flex items-center justify-center transition-all w-[46px] h-[46px] rounded-full"
+                  style={{ background: settings.bluetooth ? "#007AFF" : "rgba(255,255,255,0.12)" }}
+                >
+                  <Bluetooth size={20} />
+                </button>
+              </div>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => toggle("flashlight")}
+                  className="flex items-center justify-center transition-all w-[46px] h-[46px] rounded-full"
+                  style={{ background: settings.flashlight ? "#007AFF" : "rgba(255,255,255,0.12)" }}
+                >
+                  <Flashlight size={20} />
+                </button>
+              </div>
             </div>
-            <button
-              onClick={() => setIsControlOpen(false)}
-              className="bg-white/10 rounded-full p-2 active:bg-white/20"
-            >
-              <X size={18} />
-            </button>
+
+            {/* Right cluster: Now Playing + Screen Mirroring */}
+            <div className="bg-white/8 rounded-[18px] p-[14px] flex flex-col items-center justify-center gap-2">
+              <div className="w-[46px] h-[46px] rounded-full bg-white/12 flex items-center justify-center">
+                <Clock size={20} />
+              </div>
+              <p className="text-[11px] text-white/60 text-center leading-tight">
+                {now.format("dddd")}
+              </p>
+              <p className="text-[22px] font-bold text-white leading-none">
+                {now.format("h:mm")}
+              </p>
+              <p className="text-[11px] text-white/50">
+                {now.format("MMMM D")}
+              </p>
+            </div>
           </div>
 
-          {/* Toggles Grid */}
-          <div className="grid grid-cols-2 gap-3">
-            <button
-              onClick={() => toggle("wifi")}
-              className={`rounded-[22px] p-4 flex items-center gap-3 transition-colors ${settings.wifi ? "bg-white text-black" : "bg-white/10 text-white"}`}
-            >
-              <Wifi size={22} />
-              <div className="text-left">
-                <p className="text-xs font-bold leading-none">Wi-Fi</p>
-                <p className={`text-[10px] mt-0.5 ${settings.wifi ? "text-black/60" : "opacity-50"}`}>
-                  {settings.wifi ? "On" : "Off"}
-                </p>
+          {/* Second row: Display & Audio */}
+          <div className="grid grid-cols-2 gap-3 mb-3">
+            {/* Display cluster */}
+            <div className="bg-white/8 rounded-[18px] p-[14px]">
+              <div className="flex items-center justify-between mb-2">
+                <Sun size={14} className="text-white/70" />
+                <Moon size={14} className="text-white/70" />
               </div>
-            </button>
+              <div className="h-1 rounded-[2px] bg-white/15 relative">
+                <div
+                  className="h-full rounded-[2px] bg-white transition-[width] duration-200 ease-out"
+                  style={{ width: `${brightness}%` }}
+                />
+                <input
+                  type="range"
+                  min={0}
+                  max={100}
+                  value={brightness}
+                  onChange={(e) => setBrightness(Number(e.target.value))}
+                  className="absolute -top-2 left-0 w-full h-5 opacity-0 cursor-pointer"
+                />
+              </div>
+              <button
+                onClick={() => toggle("darkMode")}
+                className="flex items-center gap-2 mt-3 w-full"
+              >
+                <div
+                  className="flex items-center justify-center w-8 h-8 rounded-2xl"
+                  style={{ background: settings.darkMode ? "#007AFF" : "rgba(255,255,255,0.12)" }}
+                >
+                  {settings.darkMode ? <Moon size={15} /> : <Sun size={15} />}
+                </div>
+                <div className="text-left">
+                  <p className="text-[11px] font-semibold text-white">
+                    {settings.darkMode ? "Dark" : "Light"}
+                  </p>
+                  <p className="text-[9px] text-white/40">Appearance</p>
+                </div>
+              </button>
+            </div>
 
-            <button
-              onClick={() => toggle("bluetooth")}
-              className={`rounded-[22px] p-4 flex items-center gap-3 transition-colors ${settings.bluetooth ? "bg-white text-black" : "bg-white/10 text-white"}`}
-            >
-              <Bluetooth size={22} />
-              <div className="text-left">
-                <p className="text-xs font-bold leading-none">Bluetooth</p>
-                <p className={`text-[10px] mt-0.5 ${settings.bluetooth ? "text-black/60" : "opacity-50"}`}>
-                  {settings.bluetooth ? "On" : "Off"}
-                </p>
+            {/* Audio cluster */}
+            <div className="bg-white/8 rounded-[18px] p-[14px]">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-[10px] text-white/70">🔈</span>
+                <span className="text-[10px] text-white/70">🔊</span>
               </div>
-            </button>
-
-            <button
-              onClick={() => toggle("darkMode")}
-              className={`rounded-[22px] p-4 flex items-center gap-3 transition-colors ${settings.darkMode ? "bg-white text-black" : "bg-white/10 text-white"}`}
-            >
-              {settings.darkMode ? <Moon size={22} /> : <Sun size={22} />}
-              <div className="text-left">
-                <p className="text-xs font-bold leading-none">Appearance</p>
-                <p className={`text-[10px] mt-0.5 ${settings.darkMode ? "text-black/60" : "opacity-50"}`}>
-                  {settings.darkMode ? "Dark" : "Light"}
-                </p>
+              <div className="h-1 rounded-[2px] bg-white/15 relative">
+                <div
+                  className="h-full rounded-[2px] bg-white transition-[width] duration-200 ease-out"
+                  style={{ width: `${volume}%` }}
+                />
+                <input
+                  type="range"
+                  min={0}
+                  max={100}
+                  value={volume}
+                  onChange={(e) => setVolume(Number(e.target.value))}
+                  className="absolute -top-2 left-0 w-full h-5 opacity-0 cursor-pointer"
+                />
               </div>
-            </button>
-
-            <button
-              onClick={() => toggle("lowPower")}
-              className={`rounded-[22px] p-4 flex items-center gap-3 transition-colors ${settings.lowPower ? "bg-yellow-400 text-black" : "bg-white/10 text-white"}`}
-            >
-              <Battery size={22} />
-              <div className="text-left">
-                <p className="text-xs font-bold leading-none">Low Power</p>
-                <p className={`text-[10px] mt-0.5 ${settings.lowPower ? "text-black/60" : "opacity-50"}`}>
-                  {settings.lowPower ? "On" : "Off"}
-                </p>
-              </div>
-            </button>
+              <button
+                onClick={() => toggle("lowPower")}
+                className="flex items-center gap-2 mt-3 w-full"
+              >
+                <div
+                  className="flex items-center justify-center w-8 h-8 rounded-2xl"
+                  style={{ background: settings.lowPower ? "#f59e0b" : "rgba(255,255,255,0.12)" }}
+                >
+                  <Battery size={15} />
+                </div>
+                <div className="text-left">
+                  <p className="text-[11px] font-semibold text-white">
+                    {settings.lowPower ? "On" : "Off"}
+                  </p>
+                  <p className="text-[9px] text-white/40">Low Power Mode</p>
+                </div>
+              </button>
+            </div>
           </div>
 
-          {/* Swipe-down handle */}
-          <div className="flex justify-center pt-1">
-            <div className="w-10 h-1 bg-white/30 rounded-full" onClick={() => setIsControlOpen(false)} />
+          {/* Bottom shortcuts */}
+          <div className="grid grid-cols-4 gap-3">
+            {[
+              { icon: <Calculator size={20} />, label: "Calculator" },
+              { icon: <Camera size={20} />, label: "Camera" },
+              { icon: <Clock size={20} />, label: "Timer" },
+              { icon: <Search size={20} />, label: "Search" },
+            ].map((item, i) => (
+              <button
+                key={i}
+                className="flex flex-col items-center gap-1 bg-white/8 rounded-2xl py-[14px] px-2"
+              >
+                <div className="text-white/80">{item.icon}</div>
+                <span className="text-[9px] text-white/50">{item.label}</span>
+              </button>
+            ))}
           </div>
         </div>
       </aside>
 
-      {/* App Grid — Home Screen */}
-      <section
-        className="absolute inset-0 overflow-y-auto"
-        style={{ paddingTop: "56px", paddingBottom: "112px" }}
-      >
-        <div className="grid grid-cols-4 px-4 py-4"
-          style={{ gap: "24px 8px" }}
-        >
+      {/* ===== APP GRID — HOME SCREEN ===== */}
+      <section className="absolute inset-0 overflow-y-auto pt-[64px] pb-[120px]">
+        <div className="grid grid-cols-4 px-5 gap-y-7 gap-x-3">
           {dockApps.map((app) => (
             <button
               key={app.id}
               disabled={!app.canOpen}
               onClick={() => app.canOpen && openWindow(app.id)}
-              className="flex flex-col items-center gap-[6px] active:scale-90 transition-transform duration-150"
+              className="flex flex-col items-center gap-[6px] active:scale-[0.85] transition-transform duration-150"
             >
               <div
-                className="rounded-[20px] overflow-hidden shadow-xl"
+                className="overflow-hidden w-[62px] h-[62px] rounded-[15px]"
                 style={{
-                  width: 60,
-                  height: 60,
-                  boxShadow: "0 4px 16px rgba(0,0,0,0.35)",
-                  opacity: app.canOpen ? 1 : 0.45,
+                  boxShadow: app.canOpen
+                    ? "0 2px 8px rgba(0,0,0,0.18), 0 0 0 0.5px rgba(255,255,255,0.08)"
+                    : "none",
+                  opacity: app.canOpen ? 1 : 0.4,
+                  background: app.canOpen ? "transparent" : "rgba(255,255,255,0.1)",
                 }}
               >
                 <img
                   src={`/images/${app.icon}`}
                   alt={app.name}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover rounded-[15px]"
                 />
               </div>
               <span
-                className="text-[11px] font-medium text-center text-white leading-tight"
-                style={{ textShadow: "0 1px 3px rgba(0,0,0,0.8)", maxWidth: 68 }}
+                className="text-[11px] font-medium text-center text-white leading-tight max-w-[72px] [text-shadow:0_1px_4px_rgba(0,0,0,0.9)]"
               >
                 {app.name}
               </span>
             </button>
           ))}
         </div>
+
+        {/* Page dots */}
+        {pageCount > 1 && (
+          <div className="flex justify-center gap-[6px] mt-4">
+            {Array.from({ length: pageCount }).map((_, i) => (
+              <div
+                key={i}
+                className="h-[7px] rounded-[4px] transition-all duration-250 ease-out"
+                style={{
+                  width: i === currentPage ? 18 : 7,
+                  background: i === currentPage
+                    ? "rgba(255,255,255,0.9)"
+                    : "rgba(255,255,255,0.3)",
+                }}
+              />
+            ))}
+          </div>
+        )}
       </section>
 
-      {/* Dock */}
-      <footer
-        className="absolute bottom-5 left-1/2 -translate-x-1/2 flex items-center justify-around px-4"
-        style={{
-          width: "90%",
-          height: 82,
-          background: "rgba(255,255,255,0.18)",
-          backdropFilter: "blur(28px) saturate(1.5)",
-          borderRadius: 28,
-          border: "1px solid rgba(255,255,255,0.22)",
-          boxShadow: "0 8px 32px rgba(0,0,0,0.28)",
-        }}
-      >
-        {dockApps.filter(a => a.canOpen).slice(0, 4).map((app) => (
-          <button
-            key={app.id}
-            onClick={() => openWindow(app.id)}
-            className="active:scale-90 transition-transform duration-150"
-            style={{
-              width: 56,
-              height: 56,
-              borderRadius: 14,
-              overflow: "hidden",
-              boxShadow: "0 2px 10px rgba(0,0,0,0.3)",
-            }}
-          >
-            <img
-              src={`/images/${app.icon}`}
-              alt={app.name}
-              className="w-full h-full object-cover"
-            />
-          </button>
-        ))}
+      {/* ===== DOCK (iPhone 16 Style) ===== */}
+      <footer className="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center justify-around w-[92%] h-[88px] bg-white/22 backdrop-blur-[40px] backdrop-saturate-[1.8] rounded-[32px] border border-white/18 shadow-[0_8px_40px_rgba(0,0,0,0.22),inset_0_1px_0_rgba(255,255,255,0.12)] px-[10px]">
+        {dockApps
+          .filter((a) => a.canOpen)
+          .slice(0, 4)
+          .map((app) => (
+            <button
+              key={app.id}
+              onClick={() => openWindow(app.id)}
+              className="active:scale-[0.82] transition-transform duration-150 w-[58px] h-[58px] rounded-[14px] overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.2)]"
+            >
+              <img
+                src={`/images/${app.icon}`}
+                alt={app.name}
+                className="w-full h-full object-cover rounded-[14px]"
+              />
+            </button>
+          ))}
       </footer>
 
-      {/* Home Indicator */}
-      <div
-        className="absolute bottom-1.5 left-1/2 -translate-x-1/2 rounded-full z-50"
-        style={{ width: 120, height: 5, background: "rgba(255,255,255,0.5)" }}
-      />
+      {/* ===== HOME INDICATOR ===== */}
+      <div className="absolute bottom-[2px] left-1/2 -translate-x-1/2 rounded-full z-50 w-[134px] h-[5px] bg-white/55" />
     </div>
   );
 };

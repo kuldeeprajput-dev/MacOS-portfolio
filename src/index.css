@@ -2,8 +2,7 @@
 
 @import "tailwindcss";
 
-html,
-body {
+html, body {
   width: 100dvw;
   overflow: hidden;
   height: 100dvh;
@@ -357,8 +356,6 @@ body.theme-dark {
     @apply w-5xl h-[70vh] absolute top-20 left-1/12 bg-white shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
   }
 
-
-
   #terminal {
     @apply w-xl absolute top-32 left-1/12 bg-white shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
 
@@ -493,15 +490,19 @@ body.theme-dark {
     }
   }
 
-  #resume {
-    @apply w-fit h-fit absolute top-16 left-7/12 bg-white shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
+#resume {
+  @apply w-fit h-fit absolute top-16 left-7/12 bg-white shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
 
-    #window-header {
-      h2 {
-        @apply font-bold text-sm text-center flex-1;
-      }
+  .resume-main {
+    @apply overflow-auto;
+  }
+
+  #window-header {
+    h2 {
+      @apply font-bold text-sm text-center flex-1;
     }
   }
+}
 
   #finder {
     @apply absolute w-3xl left-40 top-20 shadow-2xl drop-shadow-2xl overflow-hidden rounded-xl;
@@ -590,27 +591,27 @@ body.theme-dark {
       }
     }
   }
-
-
-  /* ===== MOBILE OS STYLES ===== */
-  .mobile-os-container {
-    background-image: url("/images/wallpaper2.png");
-    background-size: cover;
-    background-position: center;
-  }
-
-  .mobile-os-container * {
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  .mobile-os-container section::-webkit-scrollbar {
-    display: none;
-  }
 }
 
-/* ===== FULL-SCREEN APP FIXES (Mobile) ===== */
+/* ===== MOBILE OS STYLES (iPhone 16) ===== */
+.mobile-os-container {
+  background-image: url("/images/wallpaper2.png");
+  background-size: cover;
+  background-position: center;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.mobile-os-container * {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mobile-os-container section::-webkit-scrollbar {
+  display: none;
+}
+
+/* ===== FULL-SCREEN APP FIXES (iPhone 16 Mobile) ===== */
 @media (max-width: 767px) {
-  /* Remove desktop absolute positioning styles */
   #finder, #safari, #terminal, #contact, #photos, #resume, #txtfile, #imgfile {
     border-radius: 0 !important;
     box-shadow: none !important;
@@ -618,24 +619,24 @@ body.theme-dark {
     width: 100dvw !important;
     top: 0 !important;
     left: 0 !important;
-    
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100dvh !important;
   }
 
-  /* Window header */
   #window-header {
     display: flex !important;
     align-items: center;
     flex-shrink: 0;
-    padding: 12px 18px !important;
-    background: #f8f8f8 !important;
-    border-bottom: 1px solid #e5e5ea !important;
+    padding: 14px 16px !important;
+    background: #f2f2f7 !important;
+    border-bottom: 0.5px solid #e5e5ea !important;
     height: auto !important;
     min-height: 52px;
     gap: 10px;
     flex-wrap: nowrap;
   }
 
-  /* Scrollable content wrapper for all windows */
   #finder .finder-main,
   #photos .photos-main,
   #terminal .techstack,
@@ -643,113 +644,66 @@ body.theme-dark {
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     flex: 1;
-    height: 0;
+    min-height: 0;
     display: flex;
     flex-direction: column;
+    background: #f2f2f7;
   }
 
-  #photos .gallery,
-  #finder .content {
-    flex: 1;
-    height: auto !important;
-  }
-
-  /* Safari blog scrollable */
-  #safari .blog {
+  #resume .resume-main {
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     flex: 1;
-    height: 0;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #f2f2f7;
   }
 
-  /* Finder sidebar hidden on mobile */
-  #finder .sidebar {
-    /* display: none !important; */
-  }
-
-  /* Finder content: static grid instead of absolute */
-  #finder .content {
-    max-width: 100% !important;
-    padding: 16px !important;
-    position: absolute !important;
-    right: 0 !important;
-    flex-wrap: wrap;
-    gap: 16px;
-    align-content: flex-start;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    flex: 1;
-    height: 0;
-  }
-
-  #finder .content li {
-    position: static !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    gap: 6px !important;
-    width: calc(50% - 8px) !important;
-    top: auto !important;
-    left: auto !important;
-    right: auto !important;
-    bottom: auto !important;
-  }
-
-  #finder .content li img {
-    width: 56px !important;
-    height: 56px !important;
-  }
-
-  #finder .content li p {
-    font-size: 12px;
-    text-align: center;
+  #resume .resume-main .react-pdf__Document {
     width: 100%;
   }
 
-  /* Photos: hide sidebar */
-  #photos .sidebar {
-   width:130px;
+  #resume .resume-main .react-pdf__Page {
+    width: 100% !important;
+    max-width: 100% !important;
   }
-#photos { 
-  margin-top:330px;
-  
-  
-}
-  
-  #photos .gallery { 
-    /* display: grid !important; */
-    /* grid-template-columns: repeat(2, 1fr) !important; */
-    margin-left: 120px;
-    width: 70% !important;
-    margin-top: 52px !important;
-    padding: 12px !important;
+
+  #resume .resume-main .react-pdf__Page__canvas {
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  #resume .resume-main .react-pdf__Page__textContent,
+  #resume .resume-main .react-pdf__Page__annotations {
+    width: 100% !important;
+  }
+
+  #photos {
+    margin-top: 330px;
+  }
+
+  #finder .finder-main {
+    background: #f2f2f7 !important;
+  }
+
+  #safari .safari-start-page {
+    flex: 1;
+    min-height: 0;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-   position: absolute;
-   right: 0;
-   bottom: 0;
-   left: 0;
-   top: 0;
-   height: 100%;
-   width: 100%;
-   overflow: scroll;
-  
   }
-  
 
-  /* #photos .gallery ul {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    /* grid-template-rows: none !important; */
-    /* gap: 8px !important; */
-  /* } */ 
+  #imgfile {
+    background: #000 !important;
+  }
 
-  /* #photos .gallery ul li {
-    grid-column: span 1 !important;
-    grid-row: span 1 !important;
-  } */
+  #imgfile #window-header {
+    background: #000 !important;
+    border-bottom: none !important;
+  }
 
-  /* Contact: vertical layout */
   #contact ul {
     flex-direction: column !important;
     gap: 10px !important;
@@ -759,7 +713,6 @@ body.theme-dark {
     width: 100% !important;
   }
 
-  /* Terminal / Skills */
   #terminal .techstack .label {
     margin-left: 0 !important;
     margin-top: 8px !important;
@@ -786,17 +739,10 @@ body.theme-dark {
     display: none;
   }
 
-  /* Safari search bar */
   #safari .search {
     width: 100% !important;
   }
 
-  #safari #window-header {
-    flex-wrap: wrap;
-    height: auto !important;
-  }
-
-  /* Blog posts vertical */
   #safari .blog-post {
     display: flex !important;
     flex-direction: column !important;

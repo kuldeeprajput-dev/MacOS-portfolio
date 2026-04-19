@@ -18,7 +18,6 @@ const windowWrapper = (Component, windowKey) => {
       return () => window.removeEventListener("resize", checkMobile);
     }, []);
 
-    // Desktop: GSAP drag
     useGSAP(() => {
       const el = ref.current;
       if (!el || isMobile) return;
@@ -28,7 +27,6 @@ const windowWrapper = (Component, windowKey) => {
       return () => instance.kill();
     }, [isMobile]);
 
-    // Desktop: GSAP open animation
     useGSAP(() => {
       const el = ref.current;
       if (!el || isMobile) return;
@@ -51,15 +49,16 @@ const windowWrapper = (Component, windowKey) => {
       left: 0,
       width: "100dvw",
       height: "100dvh",
-      zIndex: isOpen ? 9999 : -1,
-      background: "#ffffff",
+      zIndex: isOpen ? zIndex : -1,
+      background: "#f2f2f7",
       flexDirection: "column",
       overflow: "hidden",
       display: "flex",
       opacity: isOpen ? 1 : 0,
       pointerEvents: isOpen ? "auto" : "none",
-      transform: isOpen ? "translateX(0)" : "translateX(100%)",
-      transition: "transform 0.32s cubic-bezier(0.4,0,0.2,1), opacity 0.32s ease",
+      transform: isOpen ? "translateY(0)" : "translateY(100%)",
+      transition:
+        "transform 0.4s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.35s ease",
       border: "none",
       outline: "none",
       boxShadow: "none",

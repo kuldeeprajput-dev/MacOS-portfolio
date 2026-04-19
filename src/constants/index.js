@@ -78,27 +78,30 @@ const projects = [
   {
     id: 1,
     title: "NewTube",
-    description: "A modern video streaming application built with Next.js, Tailwind CSS, tRPC, and PostgreSQL.",
-    image: "/images/project-1.png",
+    description:
+      "A modern video streaming application built with Next.js, Tailwind CSS, tRPC, and PostgreSQL.",
+    image: "/projects/newtube.png",
     link: "https://newtube-ruddy.vercel.app/",
-    github: "https://github.com/Kuldeep23345/newtube"
+    github: "https://github.com/Kuldeep23345/newtube",
   },
   {
     id: 2,
     title: "Free Course Finder",
-    description: "An AI-powered learning platform to discover free courses from multiple sources.",
-    image: "/images/project-2.png",
+    description:
+      "An AI-powered learning platform to discover free courses from multiple sources.",
+    image: "/projects/freecourse.png",
     link: "https://ai-course-finder-ivory.vercel.app/",
-    github: "https://github.com/Kuldeep23345/ai-course-finder"
+    github: "https://github.com/Kuldeep23345/ai-course-finder",
   },
   {
     id: 3,
     title: "Resume Ats Scanner",
-    description: "AI-powered resume parsing and analysis platform optimized for ATS.",
-    image: "/images/project-3.png",
+    description:
+      "AI-powered resume parsing and analysis platform optimized for ATS.",
+    image: "/projects/resumeats.png",
     link: "https://resume-ats-omega.vercel.app/",
-    github: "https://github.com/Kuldeep23345/resume-ats-scanner"
-  }
+    github: "https://github.com/Kuldeep23345/resume-ats-scanner",
+  },
 ];
 
 const techStack = [
@@ -135,7 +138,7 @@ const socials = [
     icon: "/icons/github.svg",
     bg: "#f4656b",
     link: "https://github.com/Kuldeep23345",
-    img:"/images/github.png"
+    img: "/images/github.png",
   },
   {
     id: 2,
@@ -143,7 +146,7 @@ const socials = [
     icon: "/icons/atom.svg",
     bg: "#4bcb63",
     link: "#",
-    img:"/images/youtube.png"
+    img: "/images/youtube.png",
   },
   {
     id: 3,
@@ -151,7 +154,7 @@ const socials = [
     icon: "/icons/twitter.svg",
     bg: "#ff866b",
     link: "https://x.com/kuldeep_rajput23",
-    img:"/images/x.png"
+    img: "/images/x.png",
   },
   {
     id: 4,
@@ -159,7 +162,7 @@ const socials = [
     icon: "/icons/linkedin.svg",
     bg: "#05b6f6",
     link: "https://linkedin.com/in/kuldeep-rajput-24196537b",
-    img:"/images/linkedin.png"
+    img: "/images/linkedin.png",
   },
 ];
 
@@ -266,7 +269,8 @@ const WORK_LOCATION = {
           kind: "file",
           fileType: "img",
           position: "top-52 right-80",
-          imageUrl: "/images/project-1.png",
+          imageUrl: "/projects/newtube.png",
+          imageMobUrl: "/projects/mobile/newtube-mob.png",
         },
         {
           id: 5,
@@ -318,7 +322,8 @@ const WORK_LOCATION = {
           kind: "file",
           fileType: "img",
           position: "top-52 left-80",
-          imageUrl: "/images/project-2.png",
+          imageUrl: "/projects/freecourse.png",
+          imageMobUrl: "/projects/mobile/free-course-mob.png",
         },
         {
           id: 5,
@@ -370,7 +375,8 @@ const WORK_LOCATION = {
           kind: "file",
           fileType: "img",
           position: "top-52 right-80",
-          imageUrl: "/images/project-3.png",
+          imageUrl: "/projects/resumeats.png",
+          imageMobUrl: "/projects/mobile/resume-ats-mob.png",
         },
         {
           id: 5,
