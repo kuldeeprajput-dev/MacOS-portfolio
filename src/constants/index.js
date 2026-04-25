@@ -89,9 +89,9 @@ const projects = [
     title: "Free Course Finder",
     description:
       "An AI-powered learning platform to discover free courses from multiple sources.",
-    image: "/projects/freecourse.png",
-    link: "https://ai-course-finder-ivory.vercel.app/",
-    github: "https://github.com/Kuldeep23345/ai-course-finder",
+    image: "/projects/snsta.png",
+    link: "https://snsta.vercel.app/",
+    github: "https://github.com/Kuldeep23345/insta-things-downloader",
   },
   {
     id: 3,
@@ -287,7 +287,7 @@ const WORK_LOCATION = {
     // ▶ Project 2
     {
       id: 6,
-      name: "Free Course Finder",
+      name: "Snsta",
       icon: "/images/folder.png",
       kind: "folder",
       position: "top-52 right-80",
@@ -295,35 +295,37 @@ const WORK_LOCATION = {
       children: [
         {
           id: 1,
-          name: "Free Course Finder Project.txt",
+          name: "Snsta Project.txt",
           icon: "/images/txt.png",
           kind: "file",
           fileType: "txt",
           position: "top-5 right-10",
           description: [
-            "This is an AI-powered learning platform that helps users discover free courses from sources like Coursera, edX, MIT OpenCourseWare, and YouTube. It offers natural language search, learning roadmaps, and multi-source aggregation.",
-            "Built with Next.js and Tailwind CSS, it delivers a fast, responsive experience with features like favorites, chat history, and PDF export.",
-            "It also supports AI provider flexibility with Google Gemini and Mistral AI, ensuring accurate and customizable results.Integrated tools like Tavily AI and Serper enhance search precision and discovery speed.",
+            "Download photos, videos, and reels from Instagram easily with a fast, user-friendly web app.",
+
+            "Simply paste the link and get high-quality content instantly without any login or hassle. ",
+            
+            "Designed for speed, reliability, and convenience, this tool lets you save your favorite Instagram media anytime, anywhere, in just a few quick clicks.",
           ],
         },
         {
           id: 2,
-          name: "freecoursefinder.com",
+          name: "snsta.com",
           icon: "/images/safari.png",
           kind: "file",
           fileType: "url",
-          href: "https://ai-course-finder-ivory.vercel.app/",
+          href: "https://snsta.vercel.app/",
           position: "top-20 left-20",
         },
         {
           id: 4,
-          name: "freecoursefinder.png",
+          name: "snsta.png",
           icon: "/images/image.png",
           kind: "file",
           fileType: "img",
           position: "top-52 left-80",
-          imageUrl: "/projects/freecourse.png",
-          imageMobUrl: "/projects/mobile/free-course-mob.png",
+          imageUrl: "/projects/snsta.png",
+          imageMobUrl: "/projects/mobile/snsta-mob.png",
         },
         {
           id: 5,
@@ -331,7 +333,7 @@ const WORK_LOCATION = {
           icon: "/images/github.png",
           kind: "file",
           fileType: "fig",
-          href: "https://github.com/Kuldeep23345/ai-course-finder",
+          href: "https://github.com/Kuldeep23345/insta-things-downloader",
           position: "top-60 left-5",
         },
       ],
