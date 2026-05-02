@@ -82,7 +82,7 @@ const projects = [
       "A modern video streaming application built with Next.js, Tailwind CSS, tRPC, and PostgreSQL.",
     image: "/projects/newtube.png",
     link: "https://newtube-ruddy.vercel.app/",
-    github: "https://github.com/Kuldeep23345/newtube",
+    github: "https://github.com/kuldeeprajput-dev/newtube",
   },
   {
     id: 2,
@@ -91,7 +91,7 @@ const projects = [
       "An AI-powered learning platform to discover free courses from multiple sources.",
     image: "/projects/snsta.png",
     link: "https://snsta.vercel.app/",
-    github: "https://github.com/Kuldeep23345/insta-things-downloader",
+    github: "https://github.com/kuldeeprajput-dev/insta-things-downloader",
   },
   {
     id: 3,
@@ -100,7 +100,7 @@ const projects = [
       "AI-powered resume parsing and analysis platform optimized for ATS.",
     image: "/projects/resumeats.png",
     link: "https://resume-ats-omega.vercel.app/",
-    github: "https://github.com/Kuldeep23345/resume-ats-scanner",
+    github: "https://github.com/kuldeeprajput-dev/resume-ats-scanner",
   },
 ];
 
@@ -137,7 +137,7 @@ const socials = [
     text: "Github",
     icon: "/icons/github.svg",
     bg: "#f4656b",
-    link: "https://github.com/Kuldeep23345",
+    link: "https://github.com/kuldeeprajput-dev",
     img: "/images/github.png",
   },
   {
@@ -153,7 +153,7 @@ const socials = [
     text: "Twitter/X",
     icon: "/icons/twitter.svg",
     bg: "#ff866b",
-    link: "https://x.com/kuldeep_rajput23",
+    link: "https://x.com/kuldeepdotcom",
     img: "/images/x.png",
   },
   {
@@ -278,7 +278,7 @@ const WORK_LOCATION = {
           icon: "/images/github.png",
           kind: "file",
           fileType: "fig",
-          href: "https://github.com/Kuldeep23345/newtube",
+          href: "https://github.com/kuldeeprajput-dev/newtube",
           position: "top-60 right-20",
         },
       ],
@@ -304,7 +304,7 @@ const WORK_LOCATION = {
             "Download photos, videos, and reels from Instagram easily with a fast, user-friendly web app.",
 
             "Simply paste the link and get high-quality content instantly without any login or hassle. ",
-            
+
             "Designed for speed, reliability, and convenience, this tool lets you save your favorite Instagram media anytime, anywhere, in just a few quick clicks.",
           ],
         },
@@ -333,7 +333,7 @@ const WORK_LOCATION = {
           icon: "/images/github.png",
           kind: "file",
           fileType: "fig",
-          href: "https://github.com/Kuldeep23345/insta-things-downloader",
+          href: "https://github.com/kuldeeprajput-dev/insta-things-downloader",
           position: "top-60 left-5",
         },
       ],
@@ -386,7 +386,7 @@ const WORK_LOCATION = {
           icon: "/images/github.png",
           kind: "file",
           fileType: "fig",
-          href: "https://github.com/Kuldeep23345/resume-ats-scanner",
+          href: "https://github.com/kuldeeprajput-dev/resume-ats-scanner",
           position: "top-60 right-20",
         },
       ],
