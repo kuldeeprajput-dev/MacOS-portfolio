@@ -161,7 +161,7 @@ const socials = [
     text: "LinkedIn",
     icon: "/icons/linkedin.svg",
     bg: "#05b6f6",
-    link: "https://linkedin.com/in/kuldeep-rajput-24196537b",
+    link: "https://www.linkedin.com/in/kuldeepdotcom/",
     img: "/images/linkedin.png",
   },
 ];
