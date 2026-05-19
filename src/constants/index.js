@@ -98,9 +98,18 @@ const projects = [
     title: "Resume Ats Scanner",
     description:
       "AI-powered resume parsing and analysis platform optimized for ATS.",
-    image: "/projects/resumeats.png",
+    image: "/projects/resume-ats.png",
     link: "https://resume-ats-omega.vercel.app/",
     github: "https://github.com/kuldeeprajput-dev/resume-ats-scanner",
+  },
+  {
+    id: 4,
+    title: "Docs Editor",
+    description:
+      "A powerful, real-time collaborative document editor built with Next.js, Tiptap, Liveblocks, and Convex.",
+    image: "/projects/docs-editor.png",
+    link: "https://docs-editor-ashen.vercel.app/",
+    github: "https://github.com/kuldeeprajput-dev/docs-editor",
   },
 ];
 
@@ -358,7 +367,7 @@ const WORK_LOCATION = {
           description: [
             "This is an AI-powered resume parsing and analysis platform designed to help job seekers optimize their resumes for Applicant Tracking Systems (ATS).",
             "It extracts key information from uploaded resumes, analyzes them against job descriptions, and provides detailed feedback on keyword optimization, formatting issues, and content improvements.",
-            "Built with Gemini API, it ensures accurate parsing and intelligent scoring, helping users increase their chances of passing through automated screening processes.",
+            "Built with Groq API, it ensures accurate parsing and intelligent scoring, helping users increase their chances of passing through automated screening processes.",
           ],
         },
         {
@@ -377,7 +386,7 @@ const WORK_LOCATION = {
           kind: "file",
           fileType: "img",
           position: "top-52 right-80",
-          imageUrl: "/projects/resumeats.png",
+          imageUrl: "/projects/resume-ats.png",
           imageMobUrl: "/projects/mobile/resume-ats-mob.png",
         },
         {
@@ -387,6 +396,58 @@ const WORK_LOCATION = {
           kind: "file",
           fileType: "fig",
           href: "https://github.com/kuldeeprajput-dev/resume-ats-scanner",
+          position: "top-60 right-20",
+        },
+      ],
+    },
+    // ▶ Project 4
+    {
+      id: 8,
+      name: "Docs Editor",
+      icon: "/images/folder.png",
+      kind: "folder",
+      position: "top-52 left-5",
+      windowPosition: "top-[46vh] left-7",
+      children: [
+        {
+          id: 1,
+          name: "Docs Editor Project.txt",
+          icon: "/images/txt.png",
+          kind: "file",
+          fileType: "txt",
+          position: "top-5 left-10",
+          description: [
+            "This is a powerful, real-time collaborative document editor built to allow multiple users to edit rich-text documents simultaneously with high performance.",
+            "Powered by Liveblocks and Yjs CRDT, it features conflict-free editing, live cursor tracking, presence indicators, and inline comment threads. It integrates Tiptap for rich-text formatting, document headers, and image insertion.",
+            "Built with Next.js 15, Clerk for secure user authentication, Convex for database storage, and Zustand for state management, ensuring a modern, responsive, and secure experience.",
+          ],
+        },
+        {
+          id: 2,
+          name: "docs-editor.com",
+          icon: "/images/safari.png",
+          kind: "file",
+          fileType: "url",
+          href: "https://docs-editor-ashen.vercel.app/",
+          position: "top-10 right-20",
+        },
+        {
+          id: 4,
+          name: "docs-editor.png",
+          icon: "/images/image.png",
+          kind: "file",
+          fileType: "img",
+          position: "top-52 right-80",
+          imageUrl: "/projects/docs-editor.png",
+          imageMobUrl: "/projects/mobile/docs-editor-mob.png",
+        },
+        {
+          id: 5,
+          name: "github.com",
+          icon: "/images/github.png",
+          kind: "file",
+          fileType: "fig",
+          href: "https://github.com/kuldeeprajput-dev/docs-editor",
           position: "top-60 right-20",
         },
       ],
